@@ -135,7 +135,7 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
           Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
               // 매일 오전 9시 알림 설정
-              scheduleDaily Notification();
+              scheduleDailyNotification();
             }
           });
         }

@@ -4,6 +4,7 @@ Nuevo Español en Marcha 교재를 학습 가능한 형태로 변환
 """
 
 import PyPDF2
+import sys
 import json
 import re
 from pathlib import Path
@@ -180,15 +181,21 @@ class TextbookExtractor:
 
 # 사용 예시
 if __name__ == "__main__":
-    # PDF 파일 경로
+    # 기본 경로 (인자를 통해 덮어쓸 수 있음)
     pdf_path = "../data/textbook/nuevo_espanol_1.pdf"
     output_path = "../data/textbook/extracted_content.json"
-    
+
+    # 사용법: python pdf_extractor.py [PDF_PATH] [OUTPUT_JSON_PATH]
+    if len(sys.argv) >= 2 and sys.argv[1].strip():
+        pdf_path = sys.argv[1]
+    if len(sys.argv) >= 3 and sys.argv[2].strip():
+        output_path = sys.argv[2]
+
     # 추출기 실행
     extractor = TextbookExtractor(pdf_path)
     extractor.run_extraction()
-    
+
     # JSON으로 저장
     extractor.save_to_json(output_path)
-    
+
     print(f"\n💾 추출된 데이터가 {output_path}에 저장되었습니다.")

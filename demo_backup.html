@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Español - 5분 스페인어</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .header-content h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .header-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .nav-item {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            background: white;
+            border: none;
+            border-right: 1px solid #e0e0e0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:last-child {
+            border-right: none;
+        }
+        
+        .nav-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .nav-item.active {
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+        }
+        
+        main {
+            flex: 1;
+            padding: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .progress-bar {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .progress-track {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #3b82f6;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .practice-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #f5f9ff;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn.next {
+            flex-direction: row-reverse;
+        }
+        
+        .prompt {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .translation {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            min-height: 1.5rem;
+        }
+        
+        .translation-toggle {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .translation-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .translation-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            text-align: left;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .option-translation-toggle {
+            padding: 0.3rem 0.6rem;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        .option-btn:hover {
+            border-color: #3b82f6;
+            background: #f5f9ff;
+        }
+        
+        .option-btn.correct {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
+        
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+        
+        .option-btn.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .option-translation {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .option-translation.show {
+            display: block;
+        }
+        
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .feedback.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .streak {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #f97316;
+            margin-top: 0.5rem;
+        }
+        
+        .explanation {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .verb-tense-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .verb-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .verb-info h3 {
+            color: #3b82f6;
+            margin-bottom: 0.3rem;
+        }
+        
+        .verb-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .conjugation-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .conjugation-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .subject {
+            font-weight: bold;
+            color: #666;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+        
+        .conjugation-input {
+            padding: 0.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .conjugation-input.correct {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
+        
+        .conjugation-input.incorrect {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+        
+        .check-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        .check-btn:hover {
+            background: #2563eb;
+        }
+        
+        .check-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        /* 화살표 아이콘 */
+        .arrow-left::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+        
+        .arrow-right::after {
+            content: "→";
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Hola Español 🇪🇸</h1>
+            <p>매일 5분 스페인어 연습</p>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" onclick="switchMode('conversation')">회화</button>
+            <button class="nav-item" onclick="switchMode('verbs')">동사 시제</button>
+            <button class="nav-item" onclick="switchMode('grammar')">문법</button>
+            <button class="nav-item" onclick="switchMode('vocabulary')">단어</button>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="progress-bar">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span id="mode-title">회화 연습</span>
+                <span id="progress-text">1/10</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="streak">🔥 7일 연속 학습 중!</div>
+        </div>
+        
+        <div id="conversation-mode">
+            <div class="practice-card">
+                <div class="prompt" id="prompt">
+                    ¡Hola! ¿Cómo estás?
+                </div>
+                
+                <div class="translation" id="main-translation"></div>
+                
+                <div class="translation-toggle">
+                    <button class="translation-btn" onclick="toggleTranslation()">
+                        🔍 뜻 보기
+                    </button>
+                </div>
+                
+                <div class="options" id="options">
+                    <!-- 옵션들이 여기 들어갑니다 -->
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <!-- 피드백이 여기 표시됩니다 -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="nav-btn prev arrow-left" onclick="navigatePractice(-1)" id="prev-btn">
+                        이전
+                    </button>
+                    <button class="nav-btn next arrow-right" onclick="navigatePractice(1)" id="next-btn">
+                        다음
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="verb-mode" style="display: none;">
+            <div class="practice-card">
+                <div class="verb-tense-card">
+                    <div class="verb-info">
+                        <h3 id="verb-infinitive">hablar</h3>
+                        <p id="verb-meaning">말하다</p>
+                        <p id="tense-name">현재 시제 (Presente)</p>
+                    </div>
+                    
+                    <div class="conjugation-grid" id="conjugation-grid">
+                        <!-- 동사 활용 입력 필드들이 여기 들어갑니다 -->
+                    </div>
+                    
+                    <button class="check-btn" onclick="checkConjugations()" id="check-btn">확인하기</button>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="nav-btn prev arrow-left" onclick="navigateVerb(-1)" id="verb-prev-btn">
+                        이전
+                    </button>
+                    <button class="nav-btn next arrow-right" onclick="navigateVerb(1)" id="verb-next-btn">
+                        다음
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="grammar-mode" style="display: none;">
+            <div class="practice-card">
+                <div class="grammar-section-selector" style="text-align: center; margin-bottom: 1rem;">
+                    <button class="grammar-type-btn active" onclick="switchGrammarType('ser-estar')">Ser vs Estar</button>
+                    <button class="grammar-type-btn" onclick="switchGrammarType('articles')">관사</button>
+                    <button class="grammar-type-btn" onclick="switchGrammarType('pronouns')">대명사</button>
+                </div>
+                <div id="grammar-content">
+                    <!-- 문법 내용이 여기 들어갑니다 -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="vocabulary-mode" style="display: none;">
+            <div class="practice-card">
+                <div class="vocab-topic-selector" style="text-align: center; margin-bottom: 1rem;">
+                    <select id="vocab-topic" onchange="loadVocabularyTopic()" style="padding: 0.5rem; font-size: 1rem; border-radius: 5px;">
+                        <option value="greetings">인사와 기본 표현</option>
+                        <option value="family">가족</option>
+                        <option value="food">음식</option>
+                        <option value="numbers">숫자</option>
+                        <option value="colors">색깔</option>
+                        <option value="time">시간</option>
+                        <option value="body">신체</option>
+                    </select>
+                </div>
+                <div id="vocab-content">
+                    <!-- 단어 내용이 여기 들어갑니다 -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        let currentMode = 'conversation';
+        let currentIndex = 0;
+        let currentVerbIndex = 0;
+        let showingTranslation = false;
+        let optionTranslations = {};
+        let hasAnswered = false;
+        let verbChecked = false;
+        
+        // 회화 연습 데이터
+        const practices = [
+            {
+                prompt: "¡Hola! ¿Cómo estás?",
+                translation: "안녕! 어떻게 지내?",
+                options: [
+                    { text: "Muy bien, gracias. ¿Y tú?", translation: "아주 잘 지내, 고마워. 너는?", correct: true },
+                    { text: "Soy estudiante.", translation: "나는 학생이야.", correct: false, explanation: "'¿Cómo estás?'는 안부를 묻는 질문이에요. 'Soy estudiante'는 직업을 말할 때 써요." },
+                    { text: "Me llamo Juan.", translation: "내 이름은 후안이야.", correct: false, explanation: "이름을 말하는 표현이에요. 안부 인사에는 맞지 않아요." }
+                ]
+            },
+            {
+                prompt: "¿Cómo te llamas?",
+                translation: "이름이 뭐야?",
+                options: [
+                    { text: "Estoy bien.", translation: "잘 지내.", correct: false, explanation: "안부를 대답하는 표현이에요. 이름을 묻는 질문에는 'Me llamo...'로 답해요." },
+                    { text: "Me llamo María.", translation: "내 이름은 마리아야.", correct: true },
+                    { text: "Tengo 20 años.", translation: "나는 20살이야.", correct: false, explanation: "나이를 말하는 표현이에요. 이름을 물었을 때는 사용하지 않아요." }
+                ]
+            },
+            {
+                prompt: "¿De dónde eres?",
+                translation: "어디서 왔어?",
+                options: [
+                    { text: "Soy de Corea.", translation: "나는 한국에서 왔어.", correct: true },
+                    { text: "Estoy en casa.", translation: "나는 집에 있어.", correct: false, explanation: "'Estar'는 위치를 나타내요. 출신을 말할 때는 'Ser de...'를 써요." },
+                    { text: "Voy a la escuela.", translation: "나는 학교에 가.", correct: false, explanation: "가는 곳을 말하는 표현이에요. 출신지를 물었을 때는 사용하지 않아요." }
+                ]
+            },
+            {
+                prompt: "¿Qué desea tomar?",
+                translation: "무엇을 드시겠어요?",
+                options: [
+                    { text: "Un café, por favor.", translation: "커피 하나 주세요.", correct: true },
+                    { text: "Soy coreano.", translation: "저는 한국인입니다.", correct: false, explanation: "음료 주문과 관계없는 대답이에요." },
+                    { text: "Está bien.", translation: "괜찮아요.", correct: false, explanation: "주문할 때는 원하는 것을 구체적으로 말해야 해요." }
+                ]
+            },
+            {
+                prompt: "¿Cuánto cuesta?",
+                translation: "얼마예요?",
+                options: [
+                    { text: "Me gusta mucho.", translation: "정말 좋아해요.", correct: false, explanation: "가격을 물었을 때는 숫자로 답해야 해요." },
+                    { text: "Son diez euros.", translation: "10유로입니다.", correct: true },
+                    { text: "Está cerca.", translation: "가까워요.", correct: false, explanation: "거리를 나타내는 표현이에요. 가격과는 관계없어요." }
+                ]
+            },
+            {
+                prompt: "¿Hablas español?",
+                translation: "스페인어 할 줄 알아?",
+                options: [
+                    { text: "Un poco.", translation: "조금.", correct: true },
+                    { text: "Tengo hambre.", translation: "배고파.", correct: false, explanation: "언어 능력과 관계없는 대답이에요." },
+                    { text: "Es bonito.", translation: "예뻐.", correct: false, explanation: "무언가를 평가하는 표현이에요. 언어 능력을 물었을 때는 사용하지 않아요." }
+                ]
+            },
+            {
+                prompt: "¿Qué hora es?",
+                translation: "몇 시야?",
+                options: [
+                    { text: "Hace calor.", translation: "날씨가 더워.", correct: false, explanation: "날씨를 말하는 표현이에요. 시간을 물었을 때는 'Son las...'로 답해요." },
+                    { text: "Son las tres.", translation: "3시야.", correct: true },
+                    { text: "Vivo aquí.", translation: "여기 살아.", correct: false, explanation: "거주지를 말하는 표현이에요. 시간과는 관계없어요." }
+                ]
+            },
+            {
+                prompt: "¿Dónde está el baño?",
+                translation: "화장실이 어디예요?",
+                options: [
+                    { text: "Me gusta.", translation: "좋아해요.", correct: false, explanation: "위치를 물었을 때는 장소를 알려줘야 해요." },
+                    { text: "Está al fondo.", translation: "안쪽에 있어요.", correct: true },
+                    { text: "Tengo sed.", translation: "목말라요.", correct: false, explanation: "위치 질문과 관계없는 대답이에요." }
+                ]
+            },
+            {
+                prompt: "Gracias.",
+                translation: "고마워.",
+                options: [
+                    { text: "De nada.", translation: "천만에.", correct: true },
+                    { text: "Buenos días.", translation: "좋은 아침.", correct: false, explanation: "감사 인사에는 'De nada'나 'No hay de qué'로 답해요." },
+                    { text: "Hasta luego.", translation: "나중에 봐.", correct: false, explanation: "작별 인사예요. 감사 인사에 대한 답이 아니에요." }
+                ]
+            },
+            {
+                prompt: "¿Tienes hermanos?",
+                translation: "형제자매가 있어?",
+                options: [
+                    { text: "Sí, tengo dos hermanas.", translation: "응, 여동생이 둘 있어.", correct: true },
+                    { text: "Estoy cansado.", translation: "피곤해.", correct: false, explanation: "가족에 대한 질문과 관계없는 대답이에요." },
+                    { text: "Es lunes.", translation: "월요일이야.", correct: false, explanation: "요일을 말하는 표현이에요. 가족 관계를 물었을 때는 사용하지 않아요." }
+                ]
+            }
+        ];
+        
+        // 동사 시제 연습 데이터
+        const verbPractices = [
+            {
+                infinitive: "hablar",
+                meaning: "말하다",
+                type: "ar",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "hablo",
+                    "tú": "hablas",
+                    "él/ella": "habla",
+                    "nosotros": "hablamos",
+                    "vosotros": "habláis",
+                    "ellos": "hablan"
+                }
+            },
+            {
+                infinitive: "comer",
+                meaning: "먹다",
+                type: "er",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "como",
+                    "tú": "comes",
+                    "él/ella": "come",
+                    "nosotros": "comemos",
+                    "vosotros": "coméis",
+                    "ellos": "comen"
+                }
+            },
+            {
+                infinitive: "vivir",
+                meaning: "살다",
+                type: "ir",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "vivo",
+                    "tú": "vives",
+                    "él/ella": "vive",
+                    "nosotros": "vivimos",
+                    "vosotros": "vivís",
+                    "ellos": "viven"
+                }
+            },
+            {
+                infinitive: "hablar",
+                meaning: "말하다",
+                type: "ar",
+                tense: "preterito",
+                tenseName: "단순과거 (Pretérito)",
+                conjugations: {
+                    "yo": "hablé",
+                    "tú": "hablaste",
+                    "él/ella": "habló",
+                    "nosotros": "hablamos",
+                    "vosotros": "hablasteis",
+                    "ellos": "hablaron"
+                }
+            },
+            {
+                infinitive: "ser",
+                meaning: "이다 (본질)",
+                type: "irregular",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "soy",
+                    "tú": "eres",
+                    "él/ella": "es",
+                    "nosotros": "somos",
+                    "vosotros": "sois",
+                    "ellos": "son"
+                }
+            },
+            {
+                infinitive: "estar",
+                meaning: "이다 (상태/위치)",
+                type: "irregular",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "estoy",
+                    "tú": "estás",
+                    "él/ella": "está",
+                    "nosotros": "estamos",
+                    "vosotros": "estáis",
+                    "ellos": "están"
+                }
+            },
+            {
+                infinitive: "tener",
+                meaning: "가지다",
+                type: "irregular",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "tengo",
+                    "tú": "tienes",
+                    "él/ella": "tiene",
+                    "nosotros": "tenemos",
+                    "vosotros": "tenéis",
+                    "ellos": "tienen"
+                }
+            },
+            {
+                infinitive: "poder",
+                meaning: "할 수 있다",
+                type: "irregular",
+                tense: "presente",
+                tenseName: "현재 시제 (Presente)",
+                conjugations: {
+                    "yo": "puedo",
+                    "tú": "puedes",
+                    "él/ella": "puede",
+                    "nosotros": "podemos",
+                    "vosotros": "podéis",
+                    "ellos": "pueden"
+                }
+            },
+            {
+                infinitive: "comer",
+                meaning: "먹다",
+                type: "er",
+                tense: "preterito",
+                tenseName: "단순과거 (Pretérito)",
+                conjugations: {
+                    "yo": "comí",
+                    "tú": "comiste",
+                    "él/ella": "comió",
+                    "nosotros": "comimos",
+                    "vosotros": "comisteis",
+                    "ellos": "comieron"
+                }
+            },
+            {
+                infinitive: "hablar",
+                meaning: "말하다",
+                type: "ar",
+                tense: "imperfecto",
+                tenseName: "불완료과거 (Imperfecto)",
+                conjugations: {
+                    "yo": "hablaba",
+                    "tú": "hablabas",
+                    "él/ella": "hablaba",
+                    "nosotros": "hablábamos",
+                    "vosotros": "hablabais",
+                    "ellos": "hablaban"
+                }
+            }
+        ];
+        
+        const modeTitles = {
+            conversation: "회화 연습",
+            verbs: "동사 시제 연습",
+            grammar: "문법 연습",
+            vocabulary: "단어 학습"
+        };
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 모든 모드 숨기기
+            document.getElementById('conversation-mode').style.display = 'none';
+            document.getElementById('verb-mode').style.display = 'none';
+            document.getElementById('grammar-mode').style.display = 'none';
+            document.getElementById('vocabulary-mode').style.display = 'none';
+            
+            // 선택된 모드 보여주기
+            document.getElementById(`${mode}-mode`).style.display = 'block';
+            
+            // 모드 제목 업데이트
+            document.getElementById('mode-title').textContent = modeTitles[mode];
+            
+            // 인덱스 초기화
+            if (mode === 'conversation') {
+                currentIndex = 0;
+                showPractice(currentIndex);
+            } else if (mode === 'verbs') {
+                currentVerbIndex = 0;
+                showVerbPractice(currentVerbIndex);
+            }
+            
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            let current, total;
+            
+            if (currentMode === 'conversation') {
+                current = currentIndex + 1;
+                total = practices.length;
+            } else if (currentMode === 'verbs') {
+                current = currentVerbIndex + 1;
+                total = verbPractices.length;
+            } else {
+                current = 0;
+                total = 10;
+            }
+            
+            const percentage = ((current - 1) / total) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = `${current}/${total}`;
+        }
+        
+        function toggleTranslation() {
+            showingTranslation = !showingTranslation;
+            const mainTranslation = document.getElementById('main-translation');
+            const optionTranslations = document.querySelectorAll('.option-translation');
+            
+            if (showingTranslation) {
+                mainTranslation.textContent = practices[currentIndex].translation;
+                optionTranslations.forEach(el => el.classList.add('show'));
+                document.querySelector('.translation-btn').textContent = '🙈 뜻 숨기기';
+            } else {
+                mainTranslation.textContent = '';
+                optionTranslations.forEach(el => el.classList.remove('show'));
+                document.querySelector('.translation-btn').textContent = '🔍 뜻 보기';
+            }
+        }
+        
+        function toggleOptionTranslation(index) {
+            const translationEl = document.getElementById(`translation-${index}`);
+            const toggleBtn = event.target;
+            
+            if (optionTranslations[index]) {
+                optionTranslations[index] = false;
+                translationEl.classList.remove('show');
+                toggleBtn.textContent = '뜻';
+            } else {
+                optionTranslations[index] = true;
+                translationEl.classList.add('show');
+                toggleBtn.textContent = '숨기기';
+            }
+        }
+        
+        function selectOption(index) {
+            if (hasAnswered) return;
+            
+            const practice = practices[currentIndex];
+            const selectedOption = practice.options[index];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            hasAnswered = true;
+            
+            // 모든 버튼 비활성화
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
+            
+            // 정답/오답 표시
+            buttons.forEach((btn, i) => {
+                if (practice.options[i].correct) {
+                    btn.classList.add('correct');
+                } else if (i === index && !selectedOption.correct) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // 피드백 표시
+            const feedback = document.getElementById('feedback');
+            if (selectedOption.correct) {
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = `
+                    <div>¡Muy bien! 정답이에요! 👏</div>
+                `;
+            } else {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = `
+                    <div>아쉬워요! 다시 한 번 생각해보세요.</div>
+                    <div class="explanation">${selectedOption.explanation}</div>
+                `;
+            }
+            
+            // 모든 번역 자동으로 보여주기
+            const allTranslations = document.querySelectorAll('.option-translation');
+            allTranslations.forEach((el, i) => {
+                el.classList.add('show');
+                document.querySelector(`#toggle-${i}`).textContent = '숨기기';
+                optionTranslations[i] = true;
+            });
+            
+            if (!showingTranslation) {
+                toggleTranslation();
+            }
+        }
+        
+        function showPractice(index) {
+            const practice = practices[index];
+            document.getElementById('prompt').textContent = practice.prompt;
+            document.getElementById('main-translation').textContent = '';
+            
+            // 번역 버튼 초기화
+            showingTranslation = false;
+            document.querySelector('.translation-btn').textContent = '🔍 뜻 보기';
+            
+            // 옵션 번역 상태 초기화
+            optionTranslations = {};
+            hasAnswered = false;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = practice.options.map((opt, i) => 
+                `<button class="option-btn" onclick="selectOption(${i})">
+                    <div class="option-text">
+                        <div>${opt.text}</div>
+                        <div class="option-translation" id="translation-${i}">${opt.translation}</div>
+                    </div>
+                    <span class="option-translation-toggle" id="toggle-${i}" onclick="event.stopPropagation(); toggleOptionTranslation(${i})">뜻</span>
+                </button>`
+            ).join('');
+            
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('feedback').className = 'feedback';
+            
+            // 네비게이션 버튼 상태 업데이트
+            updateNavigationButtons();
+        }
+        
+        function navigatePractice(direction) {
+            const newIndex = currentIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < practices.length) {
+                currentIndex = newIndex;
+                showPractice(currentIndex);
+                updateProgress();
+            }
+        }
+        
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === practices.length - 1;
+        }
+        
+        function showVerbPractice(index) {
+            const practice = verbPractices[index];
+            document.getElementById('verb-infinitive').textContent = practice.infinitive;
+            document.getElementById('verb-meaning').textContent = practice.meaning;
+            document.getElementById('tense-name').textContent = practice.tenseName;
+            
+            verbChecked = false;
+            document.getElementById('check-btn').textContent = '확인하기';
+            document.getElementById('check-btn').disabled = false;
+            
+            const gridDiv = document.getElementById('conjugation-grid');
+            gridDiv.innerHTML = Object.keys(practice.conjugations).map(subject => 
+                `<div class="conjugation-item">
+                    <div class="subject">${subject}</div>
+                    <input type="text" class="conjugation-input" id="input-${subject}" 
+                           placeholder="?" data-answer="${practice.conjugations[subject]}">
+                </div>`
+            ).join('');
+            
+            // 엔터키로 다음 입력칸으로 이동
+            const inputs = gridDiv.querySelectorAll('input');
+            inputs.forEach((input, i) => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        if (i < inputs.length - 1) {
+                            inputs[i + 1].focus();
+                        } else {
+                            checkConjugations();
+                        }
+                    }
+                });
+            });
+            
+            // 첫 번째 입력칸에 포커스
+            inputs[0]?.focus();
+            
+            // 동사 네비게이션 버튼 업데이트
+            updateVerbNavigationButtons();
+        }
+        
+        function checkConjugations() {
+            if (verbChecked) return;
+            
+            const inputs = document.querySelectorAll('.conjugation-input');
+            let allCorrect = true;
+            
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                    allCorrect = false;
+                    // 정답 표시
+                    input.value = input.value + ' → ' + correctAnswer;
+                }
+            });
+            
+            verbChecked = true;
+            document.getElementById('check-btn').textContent = allCorrect ? '완벽해요! 🎉' : '다시 연습해보세요';
+            document.getElementById('check-btn').disabled = true;
+        }
+        
+        function navigateVerb(direction) {
+            const newIndex = currentVerbIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < verbPractices.length) {
+                currentVerbIndex = newIndex;
+                showVerbPractice(currentVerbIndex);
+                updateProgress();
+            }
+        }
+        
+        function updateVerbNavigationButtons() {
+            const prevBtn = document.getElementById('verb-prev-btn');
+            const nextBtn = document.getElementById('verb-next-btn');
+            
+            prevBtn.disabled = currentVerbIndex === 0;
+            nextBtn.disabled = currentVerbIndex === verbPractices.length - 1;
+        }
+        
+        function showCompletion() {
+            const card = document.querySelector('.practice-card');
+            card.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h2 style="font-size: 2rem; margin-bottom: 1rem;">🎉</h2>
+                    <h3 style="margin-bottom: 1rem;">¡Felicidades!</h3>
+                    <p>오늘의 학습을 완료했어요!</p>
+                    <p style="margin-top: 1rem; color: #666;">내일 또 만나요 👋</p>
+                    <button onclick="location.reload()" style="margin-top: 2rem; padding: 0.5rem 2rem; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        다시 연습하기
+                    </button>
+                </div>
+            `;
+        }
+        
+        // 시작
+        updateProgress();
+        if (currentMode === 'conversation') {
+            showPractice(0);
+        }
+    </script>
+</body>
+</html>
